@@ -33,3 +33,7 @@ $ python -m pip install -r requirements.txt
 Once installed, the `behave` command to execute all the tests, or run the
 `runtests.sh` script to execute `behave`, calculate the `coverage`, and
 analyze the code with `pyflakes`.
+
+## Inspiration
+
+This project was based on an [idea by Daniel Lynn](https://github.com/technicallyagile/marvin_devops_eclipse), originally developed in Java and Eclipse.
