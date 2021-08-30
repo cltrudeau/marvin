@@ -1,5 +1,17 @@
+#! /usr/bin/env python
+#
+# marvin.py
+#
+# Overly simple chat bot to demonstrate Cucumber and Python Behave
+#
+# $ python marvin.py
+#
+# ===========================================================================
+
+__version__ = '0.1'
+
 import random, re
-from utils import marvin_says
+import enum        # unused import to demo pyflakes
 
 # ===========================================================================
 # Response Data
@@ -28,10 +40,15 @@ match_word = re.compile(r"(\w+)")
 
 # ===========================================================================
 
-def handle_response(session, text):
+def marvin_says(message):
+    print(f'🤖 says: {message}')
+
+# ---------------------------------------------------------------------------
+
+def handle_response(history, text):
     global RESPONSES, REPEAT
 
-    if text in session.history.get_strings()[:-1]:
+    if text in history:
         marvin_says(REPEAT)
         return
 
@@ -51,3 +68,25 @@ def handle_response(session, text):
     # No word match, pick something random
     word = random.choice(RESPONSE_KEYS)
     marvin_says(RESPONSES[word])
+
+# ===========================================================================
+
+if __name__ == '__main__':
+    history = []
+    marvin_says("Oh, it's you.")
+
+    while True:
+        try:
+            text = input('> ')
+
+            if text.lower() in ['goodbye', 'exit', 'quit']:
+                break
+        except KeyboardInterrupt:
+            marvin_says("Changed your mind did you? Typical.")
+        except EOFError:
+            break
+        else:
+            handle_response(history, text)
+            history.append(text)
+
+    marvin_says("Yes, well, I'd had enough of you as well")
